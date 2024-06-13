@@ -13,9 +13,24 @@ RUN /tmp/setup-llvm-mingw64.sh
 ARG GO_VERSION
 FROM golang:${GO_VERSION}-bookworm
 
-RUN apt update &&\
+RUN tee > /etc/apt/sources.list.d/debian.sources <<-EOF
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
+Suites: bookworm bookworm-updates bookworm-backports
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+URIs: https://security.debian.org/debian-security
+Suites: bookworm-security
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+EOF && \
+    apt update &&\
     apt install \
-    make mingw-w64 bash --yes
+    gcc-x86-64-linux-gnu gcc-aarch64-linux-gnu \
+    make mingw-w64 bash vim --yes
 COPY --chmod=0755 scripts/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 COPY --chmod=0755 scripts/install-llvm-mingw64.sh /tmp/install-llvm-mingw64.sh 
 COPY --from=builder /tmp/llvm-mingw64 /tmp/llvm-mingw64
