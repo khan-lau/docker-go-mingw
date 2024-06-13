@@ -35,6 +35,10 @@ pkg_dir="llvm-mingw-$LLVM_MINGW64_VER-ucrt-ubuntu-20.04-$m_arch"
 pkg_file="$pkg_dir.tar.xz"
 src_url="$LLVM_MINGW64_SRC/$LLVM_MINGW64_VER/$pkg_file"
 echo ":: Downloading $src_url ..."
+export HTTP_PROXY=http://10.50.135.119:7890 \
+    && export HTTPS_PROXY=https://10.50.135.119:7890 \
+    && export http_proxy=http://10.50.135.119:7890 \
+    && export https_proxy=https://10.50.135.119:7890
 wget "$src_url"
 # wget -q --spider "$src_url"
 
@@ -63,3 +67,5 @@ find . -type l | while read -r symlink; do
     echo "$src $dst" >>symlinks.txt
     rm "$symlink"
 done
+unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
+
