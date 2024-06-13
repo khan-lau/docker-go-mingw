@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.20
+ARG GO_VERSION=1.22.4
 FROM golang:${GO_VERSION}-bookworm as builder
 ARG GO_VERSION
 ARG LLVM_MINGW64_VER=20240606
@@ -8,26 +8,13 @@ ENV LLVM_MINGW64_SRC="$LLVM_MINGW64_SRC"
 
 WORKDIR /tmp
 COPY --chmod=0755 scripts/setup-llvm-mingw64.sh /tmp/
+COPY scripts/debian.sources /etc/apt/sources.list.d/
 RUN /tmp/setup-llvm-mingw64.sh
 
 ARG GO_VERSION
 FROM golang:${GO_VERSION}-bookworm
 
-RUN tee > /etc/apt/sources.list.d/debian.sources <<-EOF
-Types: deb
-URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
-Suites: bookworm bookworm-updates bookworm-backports
-Components: main contrib non-free non-free-firmware
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
-Types: deb
-URIs: https://security.debian.org/debian-security
-Suites: bookworm-security
-Components: main contrib non-free non-free-firmware
-Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
-EOF && \
-    apt update &&\
+RUN apt update &&\
     apt install \
     gcc-x86-64-linux-gnu gcc-i686-linux-gnu gcc-aarch64-linux-gnu \
     make mingw-w64 bash vim --yes
