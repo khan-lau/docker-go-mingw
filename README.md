@@ -18,6 +18,8 @@ Here is a list of supported host and target architectures:
 | Windows             | ✅      | ✅         | ✅            |
 | Linux               | ✅      | ✅         | ✅            |
 
+>> 因为一些奇怪的原因, 在下载 mingw64时使用了代理, 如无需代理, 请注释掉 `scripts/setup-llvm-mingw64.sh` `38--41` 行
+
 ## Usage
 
 You can pull Docker image with desired Go version from Docker Hub:
