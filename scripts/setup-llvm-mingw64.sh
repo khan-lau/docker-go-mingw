@@ -41,6 +41,7 @@ export HTTP_PROXY=http://10.50.135.119:7890 \
     && export https_proxy=https://10.50.135.119:7890
 wget "$src_url"
 # wget -q --spider "$src_url"
+unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
 
 if [ ! -f "$pkg_file" ]; then
     echo "Error: can't find downloaded file $pkg_file"
