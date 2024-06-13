@@ -40,10 +40,18 @@ Examples for GitLab CI and GitHub Actions are available [here](https://github.co
 Mount directory with app source and build it:
 
 ```shell
-docker run --rm -it -v /YourPackageSrc:/go/work \
-    -w /go/work \
-    x1unix/go-mingw go build .
+docker run --rm -it \
+    -v /YourPackageSrc:/go/work \
+    -v /pkgDir:/go/pkg \
+    --workdir /go/work \
+    -e GOARCH=arm64 \
+    -e GOOS=windows \
+    x1unix/go-mingw /bin/bash
 ```
+execute `make -f Makefile`  `go build` ......
+
+> - GOARCH 可选项 `arm64` `amd64` `386`
+> - GOOS   可选项 `windows` `linux`
 
 You will get compiled Windows binary.
 
