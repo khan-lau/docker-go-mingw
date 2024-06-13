@@ -29,7 +29,7 @@ Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF && \
     apt update &&\
     apt install \
-    gcc-x86-64-linux-gnu gcc-aarch64-linux-gnu \
+    gcc-x86-64-linux-gnu gcc-i686-linux-gnu gcc-aarch64-linux-gnu \
     make mingw-w64 bash vim --yes
 COPY --chmod=0755 scripts/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 COPY --chmod=0755 scripts/install-llvm-mingw64.sh /tmp/install-llvm-mingw64.sh 
