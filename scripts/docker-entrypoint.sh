@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+
 [ -z "$GOARCH" ] && export GOARCH="amd64"
 [ -z "$GOOS" ] && export GOOS="windows"
 
-case "$GOOS" in
-windows)
+
+if [ "$GOOS" == "windows" ]; then
+    echo windows
     # Set toolchain according to GOARCH variable
     case "$GOARCH" in
     amd64)
@@ -29,7 +31,11 @@ windows)
         exit 2
         ;;
     esac
-linux)
+    
+elif [ "$GOOS" == "linux" ]; then
+    echo linux
+
+    case "$GOARCH" in
     amd64)
         export CXX_FOR_TARGET=x86_64-linux-gnu-cpp
         export CC_FOR_TARGET=x86_64-linux-gnu-gcc
@@ -52,10 +58,13 @@ linux)
         echo "Unsupported GOARCH variable value '$GOARCH'. Please set GOARCH environment variable to 'amd64', 'arm64' or '386'"
         exit 2
         ;;
-*)
-    echo "Unsupported GOOS variable value '$GOOS'. Please set GOOS environment variable to 'linux', 'windows'"
-    exit 2
-    ;;
-esac
+    esac
+
+    
+else 
+    echo "Unsupported GOOS variable value '$GOOS'. Please set GOOS environment variable to 'windows' or 'linux'"
+    
+fi
+
 
 "$@"
