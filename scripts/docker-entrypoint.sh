@@ -43,9 +43,9 @@ linux)
         export CC=i686-linux-gnu-gcc
         ;;
     arm64)
-        export CXX_FOR_TARGET=aarch64-linux-gnu-g++
+        export CXX_FOR_TARGET=aarch64-linux-gnu-cpp
         export CC_FOR_TARGET=aarch64-linux-gnu-gcc
-        export CXX=aarch64-linux-gnu-g++
+        export CXX=aarch64-linux-gnu-cpp
         export CC=aarch64-linux-gnu-gcc
         ;;
     *)
